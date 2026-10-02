@@ -1,0 +1,6 @@
+{
+  "name": "PortNex TOS - Terminal Petikemas",
+  "description": "Sistem Operasi Terminal Petikemas Modern dengan Real-Time Database, Master Data, Transaksi Bongkar Muat, Pelacakan Kontainer, dan Analitik Kapal.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

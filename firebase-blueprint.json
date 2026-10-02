@@ -1,0 +1,199 @@
+{
+  "entities": {
+    "vessel": {
+      "title": "Vessel",
+      "description": "Master data kapal petikemas dan jadwal operasional sandar",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "callSign": { "type": "string" },
+        "imoNumber": { "type": "string" },
+        "flag": { "type": "string" },
+        "shippingLine": { "type": "string" },
+        "loa": { "type": "number" },
+        "beam": { "type": "number" },
+        "draft": { "type": "number" },
+        "capacityTeu": { "type": "number" },
+        "status": { "type": "string", "enum": ["anchorage", "berthing", "working", "completed", "departed"] },
+        "berthAssigned": { "type": "string" },
+        "eta": { "type": "string" },
+        "etd": { "type": "string" },
+        "dischargeTarget": { "type": "number" },
+        "loadTarget": { "type": "number" },
+        "dischargedCount": { "type": "number" },
+        "loadedCount": { "type": "number" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["name", "callSign", "imoNumber", "shippingLine", "status"]
+    },
+    "berth": {
+      "title": "Berth",
+      "description": "Master data dermaga dan dermaga tambatan kapal",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "code": { "type": "string" },
+        "name": { "type": "string" },
+        "lengthMeters": { "type": "number" },
+        "depthMeters": { "type": "number" },
+        "maxDraft": { "type": "number" },
+        "cranesAssigned": { "type": "string" },
+        "status": { "type": "string", "enum": ["available", "occupied", "maintenance", "reserved"] },
+        "currentVessel": { "type": "string" },
+        "bollardStart": { "type": "number" },
+        "bollardEnd": { "type": "number" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["code", "name", "lengthMeters", "depthMeters", "status"]
+    },
+    "yardBlock": {
+      "title": "YardBlock",
+      "description": "Master data blok lapangan penumpukan kontainer",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "code": { "type": "string" },
+        "name": { "type": "string" },
+        "type": { "type": "string", "enum": ["dry", "reefer", "hazardous", "empty"] },
+        "capacityTeu": { "type": "number" },
+        "currentTeu": { "type": "number" },
+        "maxTiers": { "type": "number" },
+        "rows": { "type": "number" },
+        "bays": { "type": "number" },
+        "equipmentAssigned": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["code", "name", "type", "capacityTeu", "currentTeu"]
+    },
+    "container": {
+      "title": "Container",
+      "description": "Data kontainer petikemas dan pelacakan posisi real-time",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "containerNumber": { "type": "string" },
+        "isoType": { "type": "string", "enum": ["20GP", "40GP", "40HC", "45HC", "20RF", "40RF", "20OT", "40FR"] },
+        "size": { "type": "string", "enum": ["20", "40", "45"] },
+        "category": { "type": "string", "enum": ["import", "export", "transshipment", "empty"] },
+        "grossWeightTon": { "type": "number" },
+        "sealNumber": { "type": "string" },
+        "vesselId": { "type": "string" },
+        "vesselName": { "type": "string" },
+        "locationType": { "type": "string", "enum": ["vessel", "yard", "quay", "gate", "delivered"] },
+        "yardPosition": { "type": "string" },
+        "temperature": { "type": "number" },
+        "hazardousClass": { "type": "string" },
+        "consigneeOrShipper": { "type": "string" },
+        "status": { "type": "string", "enum": ["planned", "discharging", "in_yard", "loading", "on_board", "gate_out"] },
+        "gateInAt": { "type": "string" },
+        "gateOutAt": { "type": "string" },
+        "dwellDays": { "type": "number" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["containerNumber", "isoType", "size", "category", "locationType", "status"]
+    },
+    "gateTransaction": {
+      "title": "GateTransaction",
+      "description": "Transaksi gerbang Gate-In dan Gate-Out terminal petikemas",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "ticketNumber": { "type": "string" },
+        "transactionType": { "type": "string", "enum": ["GATE_IN", "GATE_OUT"] },
+        "containerNumber": { "type": "string" },
+        "truckPlateNumber": { "type": "string" },
+        "driverName": { "type": "string" },
+        "transporterCompany": { "type": "string" },
+        "eirNumber": { "type": "string" },
+        "sealNumber": { "type": "string" },
+        "damageCondition": { "type": "string" },
+        "laneNumber": { "type": "string" },
+        "operatorName": { "type": "string" },
+        "status": { "type": "string", "enum": ["approved", "pending_inspection", "rejected"] },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["ticketNumber", "transactionType", "containerNumber", "truckPlateNumber", "status"]
+    },
+    "auditLog": {
+      "title": "AuditLog",
+      "description": "Histori aktivitas log dan pelacakan audit sistem",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "action": { "type": "string" },
+        "module": { "type": "string" },
+        "entityId": { "type": "string" },
+        "entityName": { "type": "string" },
+        "details": { "type": "string" },
+        "performedBy": { "type": "string" },
+        "timestamp": { "type": "string" }
+      },
+      "required": ["action", "module", "details", "timestamp"]
+    },
+    "notification": {
+      "title": "Notification",
+      "description": "Notifikasi otomatis sistem operasional pelabuhan",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "message": { "type": "string" },
+        "type": { "type": "string", "enum": ["info", "warning", "success", "alert"] },
+        "read": { "type": "boolean" },
+        "link": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["title", "message", "type", "createdAt"]
+    },
+    "userProfile": {
+      "title": "UserProfile",
+      "description": "Profil pengguna dan hak akses peran operasional terminal",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "role": { "type": "string", "enum": ["admin", "terminal_manager", "ship_planner", "yard_supervisor", "gate_operator"] },
+        "employeeId": { "type": "string" },
+        "department": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["email", "displayName", "role"]
+    }
+  },
+  "firestore": {
+    "/vessels/{vesselId}": {
+      "schema": "vessel",
+      "description": "Master data kapal dan jadwal operasional"
+    },
+    "/berths/{berthId}": {
+      "schema": "berth",
+      "description": "Master data dermaga dan alokasi tambatan"
+    },
+    "/yardBlocks/{yardBlockId}": {
+      "schema": "yardBlock",
+      "description": "Master data blok lapangan penumpukan"
+    },
+    "/containers/{containerId}": {
+      "schema": "container",
+      "description": "Data kontainer aktif dan riwayat pergerakan"
+    },
+    "/gateTransactions/{gateId}": {
+      "schema": "gateTransaction",
+      "description": "Transaksi gate-in dan gate-out"
+    },
+    "/auditLogs/{logId}": {
+      "schema": "auditLog",
+      "description": "Riwayat aktivitas dan audit trail operasional"
+    },
+    "/notifications/{notificationId}": {
+      "schema": "notification",
+      "description": "Notifikasi otomatis sistem terminal"
+    },
+    "/users/{userId}": {
+      "schema": "userProfile",
+      "description": "Profil dan otorisasi pengguna terminal"
+    }
+  }
+}
